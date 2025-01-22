@@ -1,0 +1,128 @@
+/* General reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Body styling */
+body {
+    background-color: #f4f4f9;
+    color: #333;
+    line-height: 1.6;
+    padding: 1em;
+}
+
+/* Header styling */
+h1 {
+    text-align: center;
+    margin-bottom: 1em;
+    font-size: 2rem;
+}
+
+/* Navigation links */
+a {
+    margin-right: 1em;
+    text-decoration: none;
+    color: #007acc;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Form styling */
+form {
+    margin: 1em 0;
+    display: flex;
+    gap: 0.5em;
+    justify-content: center;
+}
+
+form input[type="search"] {
+    padding: 0.5em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 200px;
+}
+
+form button {
+    padding: 0.5em 1em;
+    border: none;
+    background-color: #007acc;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #005f99;
+}
+
+/* Parallax background */
+.parallax {
+    background-image: url('assets/images/SL-0212121-40670-68.jpg');
+    /* Replace with your image URL */
+    height: 400px;
+    /* Adjust height as needed */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin-bottom: 2em;
+    /* Adds space below the parallax section */
+}
+
+/* Coins container */
+#coinsContainer {
+    background-color: #e0e0e0;
+    /* Light grey background */
+    padding: 1.5em;
+    margin-top: -50px;
+    /* Overlap the parallax section slightly */
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1em;
+}
+
+/* Coin item */
+#coinsContainer>div {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 1em;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#coinsContainer b {
+    font-size: 1.2rem;
+    color: #007acc;
+    margin-bottom: 0.5em;
+}
+
+#coinsContainer span {
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 1em;
+}
+
+/* Info button */
+.infoButton {
+    padding: 0.5em 1em;
+    background-color: #007acc;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.infoButton:hover {
+    background-color: #005f99;
+}
