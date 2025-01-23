@@ -104,8 +104,7 @@ async function loadLocalStorage() {
         // const allCoins = JSON.parse(json);
         const allCoins = await createCoinsArray();
         saveCoinsData(allCoins);
-        json = localStorage.getItem("allCoins");
-        data = JSON.parse(json);
+        loadLocalStorage();
     }
     
     
