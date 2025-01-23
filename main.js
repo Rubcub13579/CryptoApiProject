@@ -5,10 +5,12 @@ const coinsContainer = document.getElementById("coinsContainer");
 const searchInput = document.getElementById("searchInput");
 
 
+
 let allCoins = [];
+loadLocalStorage();
 
 async function createCoinsArray() {
-
+    const  coinArray = []
     let id = 0;
 
     const coins = await getCoinsData();
@@ -21,21 +23,19 @@ async function createCoinsArray() {
         const coinDollarPrice = c.current_price;
 
 
-        allCoins.push({ coinId, coinName, coinSymbol, coinImage, coinDollarPrice })
+        coinArray.push({ coinId, coinName, coinSymbol, coinImage, coinDollarPrice })
 
 
     }
 
-    return allCoins;
+    return coinArray;
 
 }
 
 
+async function displayCoins(allCoins) {
 
-async function displayCoins() {
-
-    const coins = await createCoinsArray()
-
+    let coins = await allCoins
     for (let i = 0; i < coins.length; i++) {
 
         const coin = coins[i];
@@ -55,17 +55,17 @@ async function displayCoins() {
 }
 
 
-function moreInfo(id) {
+// function moreInfo(id) {
 
-    const coinDiv = document.getElementById("coinDiv" + id);
+//     const coinDiv = document.getElementById("coinDiv" + id);
 
-    //continue
-
-
-    
+//     //continue
 
 
-}
+
+
+
+// }
 
 
 
@@ -84,7 +84,36 @@ async function getCoinsData() {
 }
 
 
+async function saveCoinsData(allCoins) {
 
-displayCoins();
+    const data = await allCoins;
+    const json = JSON.stringify(data);    
+    localStorage.setItem("allCoins", json);
+
+}
+
+
+async function loadLocalStorage() {
+
+    let json = localStorage.getItem("allCoins");    
+    let data = JSON.parse(json);
+    
+
+
+    if(!json){
+        // const allCoins = JSON.parse(json);
+        const allCoins = await createCoinsArray();
+        saveCoinsData(allCoins);
+        json = localStorage.getItem("allCoins");
+        data = JSON.parse(json);
+    }
+    
+    
+
+    displayCoins(data);
+
+}
+
+
 
 
