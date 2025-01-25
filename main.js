@@ -40,23 +40,17 @@ async function displayCoins(allCoins) {
         const coin = coins[i];
         coinsContainer.innerHTML +=
             `
-            <div class="form-check form-switch" id="coinDiv${coin.coinId}">
-            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault${coin.coinId}">
-            <img src="${coin.coinImage}" height = 45>
-            <b>${coin.coinSymbol}</b>
-            <span>${coin.coinName}</span>
-            <button onclick="moreInfo(${coin.coinId})" class="infoButton" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample${coin.coinId}"
-            aria-expanded="false" aria-controls="collapseExample${coin.coinId}">More Info</button>
-            
-            
-            <div class="collapse" id="collapseExample${coin.coinId}">
-                <div class="card card-body" id="coinPriceDiv${coin.coinId}">
-                
-                
-
+            <div class="coinDiv form-switch position-relative border rounded p-3 mb-3" id="coinDiv${coin.coinId}">
+                <input class="form-check-input position-absolute top-0 end-0 m-2" type="checkbox" role="switch" id="flexSwitchCheckDefault${coin.coinId}">
+                <img src="${coin.coinImage}" height="45" class="me-2">
+                <b class="me-2">${coin.coinSymbol}</b>
+                <span class="me-2">${coin.coinName}</span>
+                <button onclick="moreInfo(${coin.coinId})" class="infoButton btn btn-sm btn-primary mt-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample${coin.coinId}"
+                aria-expanded="false" aria-controls="collapseExample${coin.coinId}">More Info</button>
+                <div class="collapse mt-2" id="collapseExample${coin.coinId}">
+                    <div class="card card-body" id="coinPriceDiv${coin.coinId}">
+                    </div>
                 </div>
-            </div>
-            
             </div>
 
             
@@ -70,11 +64,11 @@ async function displayCoins(allCoins) {
 
 async function moreInfo(id) {
 
-    
+
     const currentPrice = await getCoinsPrice(id);
 
-    
-    
+
+
     const coinPriceDiv = document.getElementById("coinPriceDiv" + id);
     coinPriceDiv.innerHTML =
         `
@@ -97,13 +91,13 @@ async function moreInfo(id) {
 
 async function getCoinsPrice(id) {
 
-    
-    
+
+
 
     // const usdUrl = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd";
     // const euroUrl = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur";
     // const ilsUrl = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=ils";
-    
+
     const usdUrl = "jsons/coins.json";
     const euroUrl = "jsons/europrice.json";
     const ilsUrl = "jsons/ilsprice.json";
@@ -116,14 +110,14 @@ async function getCoinsPrice(id) {
     const coinsE = responseEuro.data;
     const coinsI = responseIls.data;
 
-    
 
-        const priceInUsd = coinsU[id].current_price;
-        const priceInEuro = coinsE[id].current_price;
-        const priceInIls = coinsI[id].current_price;
 
-        
-        const currentPrice = { usd: priceInUsd, euro: priceInEuro, ils: priceInIls }
+    const priceInUsd = coinsU[id].current_price;
+    const priceInEuro = coinsE[id].current_price;
+    const priceInIls = coinsI[id].current_price;
+
+
+    const currentPrice = { usd: priceInUsd, euro: priceInEuro, ils: priceInIls }
 
 
 
