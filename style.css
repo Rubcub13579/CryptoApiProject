@@ -126,3 +126,40 @@ form button:hover {
 .infoButton:hover {
     background-color: #005f99;
 }
+
+
+#searchInput {
+    width: 100%;
+    /* Make it responsive */
+    max-width: 400px;
+    /* Limit the width */
+    padding: 12px 16px;
+    /* Add comfortable padding */
+    font-size: 16px;
+    /* Make the text readable */
+    border: 2px solid #ccc;
+    /* Define the border */
+    border-radius: 8px;
+    /* Add rounded corners */
+    outline: none;
+    /* Remove default outline */
+    transition: border-color 0.3s, box-shadow 0.3s;
+    /* Add smooth transition */
+
+    /* Add a slight shadow */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#searchInput:focus {
+    border-color: #007bff;
+    /* Highlight border on focus */
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
+    /* Add a stronger shadow */
+}
+
+#searchInput::placeholder {
+    color: #aaa;
+    /* Style the placeholder text */
+    font-style: italic;
+    /* Optional: Make it italic */
+}
