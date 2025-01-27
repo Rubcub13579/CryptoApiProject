@@ -1,5 +1,6 @@
 "use strict";
 
+(()=>{
 
 const coinsContainer = document.getElementById("coinsContainer");
 const searchInput = document.getElementById("searchInput");
@@ -33,32 +34,36 @@ async function createCoinsArray() {
 
 
 async function displayCoins(allCoins) {
+    let coins = await allCoins;
 
-    let coins = await allCoins
     for (let i = 0; i < coins.length; i++) {
-
         const coin = coins[i];
-        coinsContainer.innerHTML +=
-            `
-            <div class="coinDiv form-switch position-relative border rounded p-3 mb-3" id="coinDiv${coin.coinId}">
-                <input class="form-check-input position-absolute top-0 end-0 m-2" type="checkbox" role="switch" id="flexSwitchCheckDefault${coin.coinId}">
-                <img src="${coin.coinImage}" height="45" class="me-2">
-                <b class="me-2">${coin.coinSymbol}</b>
-                <span class="me-2">${coin.coinName}</span>
-                <button onclick="moreInfo(${coin.coinId})" class="infoButton btn btn-sm btn-primary mt-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample${coin.coinId}"
+
+        // Create the HTML structure for each coin
+        const coinDiv = document.createElement("div");
+        coinDiv.classList.add("coinDiv", "form-switch", "position-relative", "border", "rounded", "p-3", "mb-3");
+        coinDiv.id = `coinDiv${coin.coinId}`;
+
+        // Add the HTML content inside the coinDiv
+        coinDiv.innerHTML += `
+            <input class="form-check-input position-absolute top-0 end-0 m-2" type="checkbox" role="switch" id="flexSwitchCheckDefault${coin.coinId}">
+            <img src="${coin.coinImage}" height="45" class="me-2">
+            <b class="me-2">${coin.coinSymbol}</b>
+            <span class="me-2">${coin.coinName}</span>
+            <button class="infoButton btn btn-sm btn-primary mt-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample${coin.coinId}"
                 aria-expanded="false" aria-controls="collapseExample${coin.coinId}">More Info</button>
-                <div class="collapse mt-2" id="collapseExample${coin.coinId}">
-                    <div class="card card-body" id="coinPriceDiv${coin.coinId}">
-                    </div>
-                </div>
+            <div class="collapse mt-2" id="collapseExample${coin.coinId}">
+                <div class="card card-body" id="coinPriceDiv${coin.coinId}"></div>
             </div>
+        `;
 
-            
-            `
+        // Find the "More Info" button inside this coin div and add event listener
+        const infoButton = coinDiv.querySelector("button");
+        infoButton.addEventListener("click", () => moreInfo(coin.coinId));
 
+        // Append the coin div to the container
+        coinsContainer.appendChild(coinDiv);
     }
-
-
 }
 
 
@@ -82,16 +87,10 @@ async function moreInfo(id) {
 
         `
 
-
-
-
-
 }
 
 
 async function getCoinsPrice(id) {
-
-
 
 
     // const usdUrl = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd";
@@ -180,3 +179,4 @@ async function loadLocalStorage() {
 
 
 
+})();
