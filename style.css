@@ -64,12 +64,14 @@ form button:hover {
 .parallax {
     background-image: url('assets/images/SL-0212121-40670-68.jpg');
     /* Replace with your image URL */
-    height: 400px;
+    height: 500px;
     /* Adjust height as needed */
+    top: 5px;
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: contain;
+    width: 100%;
     margin-bottom: 2em;
     /* Adds space below the parallax section */
 }
