@@ -2,11 +2,11 @@ window.onload = async function () {
     const selectedCoinsJSON = localStorage.getItem("selectedCoins");
     const selectedCoins = JSON.parse(selectedCoinsJSON);
 
-    console.log(selectedCoinsJSON);
     
     
     if (selectedCoinsJSON === null || selectedCoinsJSON === "[]"){
         alert("No coins selected! Please select a coin");
+        window.location.replace("index.html")
         return
     }
 

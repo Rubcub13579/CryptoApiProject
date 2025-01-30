@@ -6,16 +6,18 @@
     font-family: Arial, sans-serif;
 }
 
+
 /* Body styling */
 body {
     background-color: #f4f4f9;
-    color: #333;
+    /* color: #333; */
     line-height: 1.6;
     padding: 1em;
 }
 
 /* Header styling */
-h1 {
+h1,h2 {
+    
     text-align: center;
     margin-bottom: 1em;
     font-size: 2rem;
@@ -23,9 +25,18 @@ h1 {
 
 /* Navigation links */
 a {
-    margin-right: 1em;
+    text-align: center;
+    font-size: x-large;
+    margin: 10px;
     text-decoration: none;
     color: #007acc;
+    width: max-content;
+    
+}
+
+header{
+    display: block;
+    text-align: center;
 }
 
 a:hover {
@@ -62,7 +73,7 @@ form button:hover {
 
 /* Parallax background */
 .parallax {
-    background-image: url('assets/images/SL-0212121-40670-68.jpg');
+    background-image: url('assets/images/Background-picture.jpg');
     /* Replace with your image URL */
     height: 500px;
     /* Adjust height as needed */
@@ -189,6 +200,11 @@ form button:hover {
     object-fit: contain;
 }
 
+.imgContainer{
+    display: flex; 
+    justify-content: flex-end;
+}
+
 @keyframes flip-and-spin {
     0% {
         transform: rotateX(0deg) rotateY(0deg);
@@ -196,5 +212,71 @@ form button:hover {
 
     100% {
         transform: rotateX(360deg) rotateY(360deg);
+    }
+}
+
+/* About Page Background */
+.about-background {
+    background: linear-gradient(to bottom, #f4f4f9, #e2e8f0);
+    min-height: 100vh;
+    padding: 2rem 0;
+}
+
+/* About Page Container */
+.about-container {
+    max-width: 800px;
+    margin: 3rem auto;
+    padding: 2rem;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* About Page Headings */
+.about-container h1 {
+    font-size: 2.5rem;
+    color: #007acc;
+    margin-bottom: 0.5rem;
+}
+
+.about-container h2 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+/* About Page Text */
+.about-container p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #333;
+    text-align: justify;
+    margin-bottom: 1.5rem;
+}
+
+/* Image Styling */
+.about-image {
+    display: block;
+    margin: 1rem auto;
+    max-width: 200px;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .about-container {
+        width: 90%;
+        padding: 1.5rem;
+    }
+
+    .about-container h1 {
+        font-size: 2rem;
+    }
+
+    .about-container p {
+        font-size: 1rem;
     }
 }
