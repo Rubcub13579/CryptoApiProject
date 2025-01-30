@@ -1,18 +1,15 @@
 "use strict";
 
 (() => {
-    // Constants
     const maxAmount = 5;
 
-    // DOM Elements
     const coinsContainer = document.getElementById("coinsContainer");
     const searchInput = document.getElementById("searchInput");
+    const clearCoins = document.getElementById("clearCoins");
 
-    // State
     let selectedCoins = new Set();
     let allCoinsData = [];
 
-    // Create modal element
     const modalHTML = `
         <div class="modal fade" id="coinSelectionModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -36,12 +33,10 @@
 
     document.body.insertAdjacentHTML('beforeend', modalHTML);
 
-    // Modal instance
     const selectionModal = new bootstrap.Modal(document.getElementById('coinSelectionModal'));
     const modalCoinsList = document.getElementById('modalCoinsList');
     const saveSelectionBtn = document.getElementById('saveSelectionBtn');
 
-    // Initialize
     loadLocalStorage();
 
     async function createCoinsArray() {
@@ -245,7 +240,6 @@
         }
     }
 
-    // Search functionality
     searchInput.addEventListener("input", () => {
         const searchValue = searchInput.value.toLowerCase().trim();
 
@@ -276,4 +270,18 @@
             coinsContainer.innerHTML = '<b>Error loading cryptocurrency data. Please try again later.</b>';
         }
     }
+
+    clearCoins.addEventListener("click", () => {
+
+        selectedCoins.clear();
+
+        localStorage.removeItem("selectedCoins");
+
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = false;
+        });
+    });
+
+    
 })();

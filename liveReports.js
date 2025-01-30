@@ -1,20 +1,16 @@
+window.onload = async function () {
+    const selectedCoinsJSON = localStorage.getItem("selectedCoins");
+    const selectedCoins = JSON.parse(selectedCoinsJSON);
 
-window.onload = function () {
-
-
-
-    const coinsDataJSON = localStorage.getItem("allCoins");
-    const coinsData = JSON.parse(coinsDataJSON)
-    const selectedCoinsJSON = localStorage.getItem("selectedCoins")
-    const selectedCoins = JSON.parse(selectedCoinsJSON)
+    console.log(selectedCoinsJSON);
     
-
-    for (const s of selectedCoins) {
-        console.log(coinsData[s].coinName);
+    
+    if (selectedCoinsJSON === null || selectedCoinsJSON === "[]"){
+        alert("No coins selected! Please select a coin");
+        return
     }
 
-    
-
+    // Chart configuration
     let options = {
         exportEnabled: true,
         animationEnabled: true,
@@ -25,74 +21,101 @@ window.onload = function () {
             text: "Click Legend to Hide or Unhide Data Series"
         }],
         axisX: {
-            title: "Coins "
+            title: "Time",
+            valueFormatString: "HH:mm:ss",  // Added time format
+            labelFormatter: function (e) {
+                return e.value.toLocaleTimeString();  // Format x-axis labels
+            }
         },
         axisY: {
-            title: "Units Sold",
-            titleFontColor: "#4F81BC",
-            lineColor: "#4F81BC",
-            labelFontColor: "#4F81BC",
-            tickColor: "#4F81BC"
-        },
-        axisY2: {
-            title: "Profit in USD",
-            titleFontColor: "#C0504E",
-            lineColor: "#C0504E",
-            labelFontColor: "#C0504E",
-            tickColor: "#C0504E"
+            title: "1 Coin in USD",
+            titleFontColor: "#228b22",
+            lineColor: "#228b22",
+            labelFontColor: "#228b22",
+            tickColor: "#228b22"
         },
         toolTip: {
-            shared: true
+            shared: true,
+            contentFormatter: function (e) {  // Format tooltip time
+                let content = "Time: " + e.entries[0].dataPoint.x.toLocaleTimeString() + "<br/>";
+                for (let entry of e.entries) {
+                    content += entry.dataSeries.name + ": $" + entry.dataPoint.y.toFixed(2) + "<br/>";
+                }
+                return content;
+            }
         },
         legend: {
             cursor: "pointer",
             itemclick: toggleDataSeries
         },
-        data: [{
-            type: "spline",
-            name: "Units Sold",
-            showInLegend: true,
-            xValueFormatString: "MMM YYYY",
-            yValueFormatString: "#,##0 Units",
-            dataPoints: [
-                { x: new Date(2016, 0, 1), y: 120 },
-                { x: new Date(2016, 1, 1), y: 135 },
-                { x: new Date(2016, 2, 1), y: 144 },
-                { x: new Date(2016, 3, 1), y: 103 },
-                { x: new Date(2016, 4, 1), y: 93 },
-                { x: new Date(2016, 5, 1), y: 129 },
-                { x: new Date(2016, 6, 1), y: 143 },
-                { x: new Date(2016, 7, 1), y: 156 },
-                { x: new Date(2016, 8, 1), y: 122 },
-                { x: new Date(2016, 9, 1), y: 106 },
-                { x: new Date(2016, 10, 1), y: 137 },
-                { x: new Date(2016, 11, 1), y: 142 }
-            ]
-        },
-        {
-            type: "spline",
-            name: "Profit",
-            axisYType: "secondary",
-            showInLegend: true,
-            xValueFormatString: "MMM YYYY",
-            yValueFormatString: "$#,##0.#",
-            dataPoints: [
-                { x: new Date(2016, 0, 1), y: 19034.5 },
-                { x: new Date(2016, 1, 1), y: 20015 },
-                { x: new Date(2016, 2, 1), y: 27342 },
-                { x: new Date(2016, 3, 1), y: 20088 },
-                { x: new Date(2016, 4, 1), y: 20234 },
-                { x: new Date(2016, 5, 1), y: 29034 },
-                { x: new Date(2016, 6, 1), y: 30487 },
-                { x: new Date(2016, 7, 1), y: 32523 },
-                { x: new Date(2016, 8, 1), y: 20234 },
-                { x: new Date(2016, 9, 1), y: 27234 },
-                { x: new Date(2016, 10, 1), y: 33548 },
-                { x: new Date(2016, 11, 1), y: 32534 }
-            ]
-        }]
+        data: []
     };
+
+    // Rest of the code remains the same
+    const initialCoins = await getCoinData();
+    initializeChartSeries(initialCoins);
+
     $("#chartContainer").CanvasJSChart(options);
+
+    startDataCollection();
+
+    async function getCoinData() {
+        try {
+            // const url = "coins.json" // for testing if there's fetch error
+            const url = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd";
+            const response = await fetch(url);
+            const coins = await response.json();
+            return coins;
+        } catch (error) {
+            
+            console.log("Error fetching coin data:");
+            return null;
+        }
+    }
+
+    function initializeChartSeries(coins) {
+        if (!coins) return;
+
+        for (const s of selectedCoins) {
+            const content = {
+                type: "spline",
+                name: coins[s].id,
+                showInLegend: true,
+                xValueType: "dateTime",  // Specify that x values are dates
+                dataPoints: []
+            };
+            options.data.push(content);
+        }
+    }
+
+    function startDataCollection() {
+        const intervalId = setInterval(async () => {
+            try {
+                const coins = await getCoinData();
+
+                if (!coins) {
+                    clearInterval(intervalId);
+                    return;
+                }
+
+                const currentTime = new Date();
+
+                selectedCoins.forEach((s, index) => {
+                    const coinPrice = coins[s].current_price;
+                    options.data[index].dataPoints.push({
+                        x: currentTime,
+                        y: coinPrice
+                    });
+                });
+
+                $("#chartContainer").CanvasJSChart().render();
+
+            } catch (error) {
+                console.error("Error updating chart:", error);
+                clearInterval(intervalId);
+            }
+        }, 2000);
+    }
 
     function toggleDataSeries(e) {
         if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
@@ -102,5 +125,4 @@ window.onload = function () {
         }
         e.chart.render();
     }
-
-}
+};
